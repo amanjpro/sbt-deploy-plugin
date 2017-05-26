@@ -18,6 +18,7 @@ object AdGearAssemblerPlugin extends AutoPlugin {
          |i.e. should end in the lib directory as accustomed by AdGear""".stripMargin)
     lazy val distributionProjectName  = settingKey[String]("Name (or group id) of the distribution project")
     lazy val assemblyClassifier       = settingKey[String]("The classifier for assembled projects")
+    lazy val jarName                  = settingKey[String]("The base name of both fat and normal jars")
   }
 
   import autoImport._
@@ -51,8 +52,12 @@ object AdGearAssemblerPlugin extends AutoPlugin {
         oldStrategy(x)
     },
     exportJars in assembly := true,
+    jarName := s"${name.value}-${version.value}",
     assemblyJarName in assembly := {
-      s"${name.value}-${version.value}-${assemblyClassifier.value}.jar"
+      s"${jarName.value}-${assemblyClassifier.value}.jar"
+    },
+    artifactName in Compile := { (_, _, artifact: Artifact) =>
+      s"${jarName.value}.${artifact.extension}"
     },
     // When publishing (either to local repo, or public), make sure to publish the
     // fat jar too

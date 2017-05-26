@@ -33,6 +33,8 @@ This Plugin is composed of the following subplugins:
 - `prepareForTarball` a boolean flag to specify if the jar should end directly in the
    target dir or be prepared for inclusion in the tarball, i.e. should end in the lib
    directory as accustomed by AdGear, defaults to `false`.
+- `jarName` expects `java.lang.String`, and sets the prefix of the
+   produced jar name. Defaults to `ARTIFACT_ID-VERSION`.
 - `distributionProjectName` expects a `java.lang.String`, and defaults to
   the name of the project that enables this plugin. This is used to customize
   the name of the final tarball.
