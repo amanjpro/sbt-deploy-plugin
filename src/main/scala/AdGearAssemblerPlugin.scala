@@ -11,23 +11,33 @@ object AdGearAssemblerPlugin extends AutoPlugin {
   override def trigger  = noTrigger
 
   object autoImport {
-    lazy val targetDir                = settingKey[File]("Path to the target directory in distribution project")
+    lazy val targetDistributionDir    = settingKey[File]("Path to the target directory in distribution project")
+    lazy val prepareForTarball        = settingKey[Boolean](
+      """|A flag to specify if the jar should end directly in the
+         |target dir or be prepared for inclusion in the tarball,
+         |i.e. should end in the lib directory as accustomed by AdGear""".stripMargin)
     lazy val distributionProjectName  = settingKey[String]("Name (or group id) of the distribution project")
     lazy val assemblyClassifier       = settingKey[String]("The classifier for assembled projects")
+    lazy val jarName                  = settingKey[String]("The base name of both fat and normal jars")
   }
 
   import autoImport._
 
   override lazy val projectSettings = Seq(
     distributionProjectName := name.value,
-    targetDir := file("distribution") / "target",
+    prepareForTarball := true,
+    targetDistributionDir := file("distribution") / "target",
     // set custom settings for assembly
     // for more detail please see the sbt-assembly project
     assemblyClassifier := "jar-with-dependencies",
     test in assembly := {},
     
-    assemblyOutputPath in assembly := targetDir.value / s"${distributionProjectName.value}-${version.value}-dist" /
-      s"${distributionProjectName.value}-${version.value}" / "lib" / s"${(assemblyJarName in assembly).value}",
+    assemblyOutputPath in assembly := {
+      if(prepareForTarball.value) {
+        targetDistributionDir.value / s"${distributionProjectName.value}-${version.value}-dist" /
+          s"${distributionProjectName.value}-${version.value}" / "lib" / s"${(assemblyJarName in assembly).value}"
+      } else targetDistributionDir.value / s"${(assemblyJarName in assembly).value}"
+    },
     assemblyMergeStrategy in assembly := {
       case PathList(path @ _*)
         if path.exists(x => Assembly.isConfigFile(x)) ||
@@ -42,8 +52,12 @@ object AdGearAssemblerPlugin extends AutoPlugin {
         oldStrategy(x)
     },
     exportJars in assembly := true,
+    jarName := s"${name.value}-${version.value}",
     assemblyJarName in assembly := {
-      s"${name.value}-${version.value}-${assemblyClassifier.value}.jar"
+      s"${jarName.value}-${assemblyClassifier.value}.jar"
+    },
+    artifactName in Compile := { (_, _, artifact: Artifact) =>
+      s"${jarName.value}.${artifact.extension}"
     },
     // When publishing (either to local repo, or public), make sure to publish the
     // fat jar too

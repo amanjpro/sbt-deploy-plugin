@@ -46,13 +46,13 @@ object AdGearDistributionPlugin extends AutoPlugin {
     (packageBin in Compile) := {
       val pkg = (packageBin in Compile).value
 
-      val nestedDir = s"${name.value}-${version.value}-dist/${name.value}-${version.value}"
       val binSrc = binSrcDir.value.getAbsolutePath
       val confSrc = confSrcDir.value.getAbsolutePath
 
-      val targetPath = targetDir.value.getAbsolutePath
-      val binDest = (targetDir.value / nestedDir / binDestDirName.value).getAbsolutePath
-      val confDest = (targetDir.value / nestedDir / confDestDirName.value).getAbsolutePath
+      val distDir = s"${name.value}-${version.value}"
+      val rootDir = targetDir.value / s"${name.value}-${version.value}-dist"
+      val binDest = (rootDir / distDir / binDestDirName.value).getAbsolutePath
+      val confDest = (rootDir / distDir / confDestDirName.value).getAbsolutePath
 
       // We prefer this verbose way over the simple string2process to use
       // Scala's builtin facility to escape special chars
@@ -60,7 +60,7 @@ object AdGearDistributionPlugin extends AutoPlugin {
 
       List("cp", "-R", confSrc, confDest).#||(List("mkdir", "-p", confDest)).!
 
-      List("tar", "-C", targetPath, "-c", "-z", "-f", s"$targetPath/${name.value}-${version.value}.tar.gz", nestedDir).!
+      List("tar", "-C", rootDir.getAbsolutePath, "-c", "-z", "-f", s"${targetDir.value}/${name.value}-${version.value}.tar.gz", distDir).!
 
       pkg
     },
@@ -72,7 +72,6 @@ object AdGearDistributionPlugin extends AutoPlugin {
             .listFiles
             .filter(!_.getName.startsWith("."))
             .map(f => "\"\"\"" + f.getAbsolutePath + "\"\"\"")// properly quote the paths
-//            .map(f => f.getAbsolutePath)// properly quote the paths
             // Arguments should start with a whitespace in the input task universe
             .mkString(" ", " ", "")
 
