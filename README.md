@@ -28,7 +28,7 @@ This Plugin is composed of the following subplugins:
 
 ### AdGearAssemblerPlugin introduces the following settings:
 
-- `targetDir` expects a `java.io.File`, and defaults to:
+- `targetDistributionDir` expects a `java.io.File`, and defaults to:
   `distribution/target`. This is where the fat jars exist.
 - `distributionProjectName` expects a `java.lang.String`, and defaults to
   the name of the project that enables this plugin. This is used to customize

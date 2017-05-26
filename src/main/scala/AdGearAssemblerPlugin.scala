@@ -11,7 +11,7 @@ object AdGearAssemblerPlugin extends AutoPlugin {
   override def trigger  = noTrigger
 
   object autoImport {
-    lazy val targetDir                = settingKey[File]("Path to the target directory in distribution project")
+    lazy val targetDistributionDir    = settingKey[File]("Path to the target directory in distribution project")
     lazy val distributionProjectName  = settingKey[String]("Name (or group id) of the distribution project")
     lazy val assemblyClassifier       = settingKey[String]("The classifier for assembled projects")
   }
@@ -20,13 +20,13 @@ object AdGearAssemblerPlugin extends AutoPlugin {
 
   override lazy val projectSettings = Seq(
     distributionProjectName := name.value,
-    targetDir := file("distribution") / "target",
+    targetDistributionDir := file("distribution") / "target",
     // set custom settings for assembly
     // for more detail please see the sbt-assembly project
     assemblyClassifier := "jar-with-dependencies",
     test in assembly := {},
     
-    assemblyOutputPath in assembly := targetDir.value / s"${distributionProjectName.value}-${version.value}-dist" /
+    assemblyOutputPath in assembly := targetDistributionDir.value / s"${distributionProjectName.value}-${version.value}-dist" /
       s"${distributionProjectName.value}-${version.value}" / "lib" / s"${(assemblyJarName in assembly).value}",
     assemblyMergeStrategy in assembly := {
       case PathList(path @ _*)
