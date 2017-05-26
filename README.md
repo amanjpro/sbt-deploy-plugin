@@ -32,7 +32,7 @@ This Plugin is composed of the following subplugins:
   `distribution/target`. This is where the fat jars exist.
 - `prepareForTarball` a boolean flag to specify if the jar should end directly in the
    target dir or be prepared for inclusion in the tarball, i.e. should end in the lib
-   directory as accustomed by AdGear, defaults to `false`.
+   directory as accustomed by AdGear, defaults to `true`.
 - `jarName` expects `java.lang.String`, and sets the prefix of the
    produced jar name. Defaults to `ARTIFACT_ID-VERSION`.
 - `distributionProjectName` expects a `java.lang.String`, and defaults to
