@@ -1,3 +1,4 @@
+> publishLocal
 > package
 $ exists distribution/target/simple-distribution-0.0.1-SNAPSHOT.tar.gz
 $ exists distribution/target/simple-0.0.1-SNAPSHOT-dist
@@ -12,4 +13,3 @@ $ exists distribution/target/simple-0.0.1-SNAPSHOT/bin/script
 $ exists distribution/target/simple-0.0.1-SNAPSHOT/conf/app_config
 $ exists distribution/target/simple-0.0.1-SNAPSHOT/lib/simple-main-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 $ exists distribution/target/simple-0.0.1-SNAPSHOT/lib/simple-core-0.0.1-SNAPSHOT-jar-with-dependencies.jar
-

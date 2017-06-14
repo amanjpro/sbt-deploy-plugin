@@ -41,7 +41,7 @@ object AdGearDistributionPlugin extends AutoPlugin {
     },
     packagedArtifacts in publishLocal := {
       val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publishLocal).value
-      val tarball = targetDir.value / s"${projectName.value}-${version.value}.tar.gz"
+      val tarball = targetDir.value / s"${name.value}-${version.value}.tar.gz"
       artifacts + (Artifact(projectName.value, "dist", "tar.gz", "dist") -> tarball)
     },
     // generate archive after packaging
