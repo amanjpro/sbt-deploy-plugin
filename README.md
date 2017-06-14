@@ -3,6 +3,9 @@
 AdGear Deploy is an SBT plugin to group all the shared custom settings for SBT
 builds within AdGear projects.
 
+## Running tests
+
+The command to run tests is `sbt scripted`
 
 ## Installing
 
