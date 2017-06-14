@@ -15,7 +15,8 @@ object AdGearDistributionPlugin extends AutoPlugin {
     lazy val binSrcDir            = settingKey[File]("Path to the directory where launcher scripts live")
     lazy val confSrcDir           = settingKey[File]("Path to the directory where the configurations live")
     lazy val targetDir            = settingKey[File]("Path to the directory where the tarball should end")
-    lazy val enableShellCheck    = settingKey[Boolean]("A flag to enable and disable shellcheck")
+    lazy val projectName          = settingKey[String]("Name (or group id) of the distributed project")
+    lazy val enableShellCheck     = settingKey[Boolean]("A flag to enable and disable shellcheck")
   }
 
 
@@ -25,6 +26,7 @@ object AdGearDistributionPlugin extends AutoPlugin {
     libDestDirName := "lib",
     binDestDirName := "bin",
     confDestDirName := "conf",
+    projectName := name.value,
     binSrcDir := (sourceDirectory in Compile).value / "scripts",
     confSrcDir := (resourceDirectory in Compile).value / "conf",
     targetDir := (target in Compile).value,
@@ -34,13 +36,13 @@ object AdGearDistributionPlugin extends AutoPlugin {
     // tarball is published too
     packagedArtifacts in publish := {
       val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publish).value
-      val tarball = targetDir.value / s"${name.value}-${version.value}.tar.gz"
-      artifacts + (Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
+      val tarball = targetDir.value / s"${projectName.value}-${version.value}.tar.gz"
+      artifacts + (Artifact(projectName.value, "dist", "tar.gz", "dist") -> tarball)
     },
     packagedArtifacts in publishLocal := {
       val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publishLocal).value
-      val tarball = targetDir.value / s"${name.value}-${version.value}.tar.gz"
-      artifacts + (Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
+      val tarball = targetDir.value / s"${projectName.value}-${version.value}.tar.gz"
+      artifacts + (Artifact(projectName.value, "dist", "tar.gz", "dist") -> tarball)
     },
     // generate archive after packaging
     (packageBin in Compile) := {
@@ -49,8 +51,8 @@ object AdGearDistributionPlugin extends AutoPlugin {
       val binSrc = binSrcDir.value.getAbsolutePath
       val confSrc = confSrcDir.value.getAbsolutePath
 
-      val distDir = s"${name.value}-${version.value}"
-      val rootDir = targetDir.value / s"${name.value}-${version.value}-dist"
+      val distDir = s"${projectName.value}-${version.value}"
+      val rootDir = targetDir.value / s"${projectName.value}-${version.value}-dist"
       val binDest = (rootDir / distDir / binDestDirName.value).getAbsolutePath
       val confDest = (rootDir / distDir / confDestDirName.value).getAbsolutePath
 

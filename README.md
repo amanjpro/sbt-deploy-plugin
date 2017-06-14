@@ -54,6 +54,9 @@ This Plugin is composed of the following subplugins:
 - `confSrcDir`: expects a `java.io.File`, and defaults to `src/main/resources/conf`,
   customizes the path of the `conf` directory that should end up in the tarball.
 - `targetDir`: see the same option for AdGearAssemblerPlugin
+- `projectName`: Name (or group id) of the distributed project, this determines
+  the directory name that is archived. accepts a `java.lang.String` and
+  defaults to the name of the project that enables it.
 - `enableShellCheck`: A boolean flag, enables and disables running shellcheck on all
   the scripts that can be found in `binSrcDir` upon running test command in this project.
   defaults to `true`.
