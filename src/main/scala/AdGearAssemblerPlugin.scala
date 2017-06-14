@@ -16,7 +16,7 @@ object AdGearAssemblerPlugin extends AutoPlugin {
       """|A flag to specify if the jar should end directly in the
          |target dir or be prepared for inclusion in the tarball,
          |i.e. should end in the lib directory as accustomed by AdGear""".stripMargin)
-    lazy val distributionProjectName  = settingKey[String]("Name (or group id) of the distribution project")
+    lazy val distributedProjectName   = settingKey[String]("Name (or group id) of the distributed project")
     lazy val assemblyClassifier       = settingKey[String]("The classifier for assembled projects")
     lazy val jarName                  = settingKey[String]("The base name of both fat and normal jars")
   }
@@ -24,18 +24,17 @@ object AdGearAssemblerPlugin extends AutoPlugin {
   import autoImport._
 
   override lazy val projectSettings = Seq(
-    distributionProjectName := name.value,
+    distributedProjectName := name.value,
     prepareForTarball := true,
     targetDistributionDir := file("distribution") / "target",
     // set custom settings for assembly
     // for more detail please see the sbt-assembly project
     assemblyClassifier := "jar-with-dependencies",
     test in assembly := {},
-    
     assemblyOutputPath in assembly := {
       if(prepareForTarball.value) {
-        targetDistributionDir.value / s"${distributionProjectName.value}-${version.value}-dist" /
-          s"${distributionProjectName.value}-${version.value}" / "lib" / s"${(assemblyJarName in assembly).value}"
+        targetDistributionDir.value / s"${distributedProjectName.value}-${version.value}-dist" /
+          s"${distributedProjectName.value}-${version.value}" / "lib" / s"${(assemblyJarName in assembly).value}"
       } else targetDistributionDir.value / s"${(assemblyJarName in assembly).value}"
     },
     assemblyMergeStrategy in assembly := {

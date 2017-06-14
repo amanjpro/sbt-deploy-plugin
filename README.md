@@ -35,9 +35,9 @@ This Plugin is composed of the following subplugins:
    directory as accustomed by AdGear, defaults to `false`.
 - `jarName` expects `java.lang.String`, and sets the prefix of the
    produced jar name. Defaults to `ARTIFACT_ID-VERSION`.
-- `distributionProjectName` expects a `java.lang.String`, and defaults to
+- `distributedProjectName` expects a `java.lang.String`, and defaults to
   the name of the project that enables this plugin. This is used to customize
-  the name of the final tarball.
+  the name of directory that the project tarball extracts to.
 - `assemblyClassifier` extects a `java.lang.String`, and defaults to
   `jar-with-dependencies`. This is used to customize the name of the fat jars.
 
