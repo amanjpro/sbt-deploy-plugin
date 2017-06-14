@@ -1,7 +1,7 @@
 lazy val root = Project(id="sbt-adgear-deploy", base=file(".")).settings(Seq(
     organization := "com.adgear.data",
     name := "sbt-adgear-deploy",
-    version := "2.1.0-SNAPSHOT",
+    version := "2.0.2",
     scalaVersion := "2.10.6",
     sbtPlugin := true,
     publishMavenStyle := true,
