@@ -32,10 +32,16 @@ object AdGearAssemblerPlugin extends AutoPlugin {
     assemblyClassifier := "jar-with-dependencies",
     test in assembly := {},
     assemblyOutputPath in assembly := {
-      if(prepareForTarball.value) {
-        targetDistributionDir.value / s"${distributedProjectName.value}-${version.value}-dist" /
-          s"${distributedProjectName.value}-${version.value}" / "lib" / s"${(assemblyJarName in assembly).value}"
-      } else targetDistributionDir.value / s"${(assemblyJarName in assembly).value}"
+      val prepareForTarballValue = prepareForTarball.value
+      val targetDistributionDirValue = targetDistributionDir.value
+      val distributedProjectNameValue = distributedProjectName.value
+      val versionValue = version.value
+      val assemblyJarNameValue = (assemblyJarName in assembly).value
+
+      if(prepareForTarballValue) {
+        targetDistributionDirValue / s"$distributedProjectNameValue-$versionValue-dist" /
+          s"$distributedProjectNameValue-$versionValue" / "lib" / assemblyJarNameValue
+      } else targetDistributionDirValue / assemblyJarNameValue
     },
     assemblyMergeStrategy in assembly := {
       case PathList(path @ _*)

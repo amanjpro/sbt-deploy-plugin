@@ -36,13 +36,13 @@ object AdGearDistributionPlugin extends AutoPlugin {
     // tarball is published too
     packagedArtifacts in publish := {
       val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publish).value
-      val tarball = targetDir.value / s"${projectName.value}-${version.value}.tar.gz"
-      artifacts + (Artifact(projectName.value, "dist", "tar.gz", "dist") -> tarball)
+      val tarball = targetDir.value / s"${name.value}-${version.value}.tar.gz"
+      artifacts + (Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
     },
     packagedArtifacts in publishLocal := {
       val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publishLocal).value
       val tarball = targetDir.value / s"${name.value}-${version.value}.tar.gz"
-      artifacts + (Artifact(projectName.value, "dist", "tar.gz", "dist") -> tarball)
+      artifacts + (Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
     },
     // generate archive after packaging
     (packageBin in Compile) := {
@@ -58,18 +58,18 @@ object AdGearDistributionPlugin extends AutoPlugin {
 
       // We prefer this verbose way over the simple string2process to use
       // Scala's builtin facility to escape special chars
-      List("cp", "-R", binSrc, binDest).#&&(List("chmod", "-R", "a+x", binDest)).!
+      Seq("cp", "-R", binSrc, binDest).#&&(Seq("chmod", "-R", "a+x", binDest)).!
 
-      List("cp", "-R", confSrc, confDest).#||(List("mkdir", "-p", confDest)).!
+      Seq("cp", "-R", confSrc, confDest).#||(Seq("mkdir", "-p", confDest)).!
 
-      List("tar", "-C", rootDir.getAbsolutePath, "-c", "-z", "-f", s"${targetDir.value}/${name.value}-${version.value}.tar.gz", distDir).!
+      Seq("tar", "-C", rootDir.getAbsolutePath, "-c", "-z", "-f", s"${targetDir.value}/${name.value}-${version.value}.tar.gz", distDir).!
 
       pkg
     },
     // when testing, run shellcheck on the scripts in {{{binSrcDir.value}}} directory
     test in Test := {
-      if(enableShellCheck.value) {
-        Def.taskDyn[Unit] {
+      Def.taskDyn[Unit] {
+        if(enableShellCheck.value) {
           val args = binSrcDir.value
             .listFiles
             .filter(!_.getName.startsWith("."))
@@ -78,8 +78,11 @@ object AdGearDistributionPlugin extends AutoPlugin {
             .mkString(" ", " ", "")
 
           AdGearShellCheckPlugin.autoImport.shellCheck.toTask(args)
-        }.value
-      }
+        } else {
+          val dummy = Def.taskKey[Unit]("Dummy task to satisfiy sbt")
+          dummy
+        }
+      }.value
       (test in Test).value
     }
   )
