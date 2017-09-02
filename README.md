@@ -17,6 +17,8 @@ To install this plugin in a project, simply add the following line to
 
 `addSbtPlugin("me.amanj" %% "sbt-deploy" % "${VERSION_OF_THE_PLUGIN_HERE}")`
 
+Please not that this plugin works with both sbt `0.13.x` and `1.0.x`.
+
 
 This Plugin is composed of the following subplugins:
 
