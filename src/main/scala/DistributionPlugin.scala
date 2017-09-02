@@ -1,11 +1,11 @@
-package com.adgear.sbt
+package me.amanj.sbt
 
 import sbt._
 import sbt.Keys._
 
 
-object AdGearDistributionPlugin extends AutoPlugin {
-  override def requires = AdGearShellCheckPlugin
+object DistributionPlugin extends AutoPlugin {
+  override def requires = ShellCheckPlugin
   override def trigger  = noTrigger
 
   object autoImport {
@@ -77,7 +77,7 @@ object AdGearDistributionPlugin extends AutoPlugin {
             // Arguments should start with a whitespace in the input task universe
             .mkString(" ", " ", "")
 
-          AdGearShellCheckPlugin.autoImport.shellCheck.toTask(args)
+          ShellCheckPlugin.autoImport.shellCheck.toTask(args)
         } else {
           val dummy = Def.taskKey[Unit]("Dummy task to satisfiy sbt")
           dummy

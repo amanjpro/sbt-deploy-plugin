@@ -1,5 +1,3 @@
-import com.adgear.sbt.{AdGearDistributionPlugin,AdGearAssemblerPlugin}
-
 val Organization = "sbt.test"
 val ProjectName = "simple"
 val projectScalaVersion = "2.12.2"
@@ -27,18 +25,18 @@ def project(baseDir: String, plugin: Option[AutoPlugin] = None): Project = {
     ))
 
   plugin.map {
-    case p@AdGearDistributionPlugin => prj.enablePlugins(p).settings(projectName := ProjectName)
-    case p@AdGearAssemblerPlugin    => prj.enablePlugins(p).settings(Seq(publishMavenStyle := true,
+    case p@DistributionPlugin => prj.enablePlugins(p).settings(projectName := ProjectName)
+    case p@AssemblerPlugin    => prj.enablePlugins(p).settings(Seq(publishMavenStyle := true,
         distributedProjectName := ProjectName))
   }.getOrElse(prj.settings(packagedArtifacts := Map.empty))
 }
 
 
-lazy val main = project("main", Some(AdGearAssemblerPlugin))
+lazy val main = project("main", Some(AssemblerPlugin))
 
-lazy val core = project("core", Some(AdGearAssemblerPlugin))
+lazy val core = project("core", Some(AssemblerPlugin))
 
-lazy val distribution = project("distribution", Some(AdGearDistributionPlugin)).settings(
+lazy val distribution = project("distribution", Some(DistributionPlugin)).settings(
   (packageBin in Compile) := ((packageBin in Compile) dependsOn (
     packageBin in Compile in core,
     packageBin in Compile in main)).value

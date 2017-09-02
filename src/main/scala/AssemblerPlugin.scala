@@ -1,11 +1,11 @@
-package com.adgear.sbt
+package me.amanj.sbt
 
 import sbt._
 import sbt.Keys._
 import sbtassembly.AssemblyKeys._
 import sbtassembly.{AssemblyPlugin, PathList, Assembly, MergeStrategy}
 
-object AdGearAssemblerPlugin extends AutoPlugin {
+object AssemblerPlugin extends AutoPlugin {
 
   override def requires = AssemblyPlugin
   override def trigger  = noTrigger
@@ -15,7 +15,7 @@ object AdGearAssemblerPlugin extends AutoPlugin {
     lazy val prepareForTarball        = settingKey[Boolean](
       """|A flag to specify if the jar should end directly in the
          |target dir or be prepared for inclusion in the tarball,
-         |i.e. should end in the lib directory as accustomed by AdGear""".stripMargin)
+         |i.e. should end in the lib directory""".stripMargin)
     lazy val distributedProjectName   = settingKey[String]("Name (or group id) of the distributed project")
     lazy val assemblyClassifier       = settingKey[String]("The classifier for assembled projects")
     lazy val jarName                  = settingKey[String]("The base name of both fat and normal jars")

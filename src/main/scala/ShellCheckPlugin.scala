@@ -1,9 +1,9 @@
-package com.adgear.sbt
+package me.amanj.sbt
 
 import sbt._
 import sbt.complete.DefaultParsers
 
-object AdGearShellCheckPlugin extends AutoPlugin {
+object ShellCheckPlugin extends AutoPlugin {
   override def requires = plugins.JvmPlugin
   override def trigger  = noTrigger
 
