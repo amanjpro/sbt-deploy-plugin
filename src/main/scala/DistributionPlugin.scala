@@ -58,9 +58,20 @@ object DistributionPlugin extends AutoPlugin {
 
       // We prefer this verbose way over the simple string2process to use
       // Scala's builtin facility to escape special chars
-      Seq("mkdir", "-p", binDest).#&&(Seq("bash", "-c", s"cp -R $binSrc/* $binDest/")).#&&(Seq("chmod", "-R", "a+x", binDest)).!
+      Seq("mkdir", "-p", binDest).!
+      Seq("mkdir", "-p", confDest).!
 
-      Seq("mkdir", "-p", confDest).#&&(Seq("bash", "-c", s"cp -R $confSrc/* $confDest")).!
+      if(binSrcDir.value.exists) {
+        binSrcDir.value.listFiles.foreach { file =>
+          Seq("cp", "-R", file.getAbsolutePath, s"$binDest/").#&&(Seq("chmod", "a+x", s"$binDest/${file.getName}")).!
+        }
+      }
+
+      if(confSrcDir.value.exists) {
+        confSrcDir.value.listFiles.foreach { file =>
+          Seq("cp", "-R", file.getAbsolutePath, s"$confDest/").!
+        }
+      }
 
       Seq("tar", "-C", rootDir.getAbsolutePath, "-c", "-z", "-f", s"${targetDir.value}/${name.value}-${version.value}.tar.gz", distDir).!
 
