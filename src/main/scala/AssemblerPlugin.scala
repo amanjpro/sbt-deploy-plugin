@@ -61,9 +61,6 @@ object AssemblerPlugin extends AutoPlugin {
     assemblyJarName in assembly := {
       s"${jarName.value}-${assemblyClassifier.value}.jar"
     },
-    artifactName in Compile := { (_, _, artifact: Artifact) =>
-      s"${jarName.value}.${artifact.extension}"
-    },
     // When publishing (either to local repo, or public), make sure to publish the
     // fat jar too
     packagedArtifacts in publish := {
