@@ -1,5 +1,5 @@
 lazy val commonSettings = Seq(
-  version in ThisBuild := "2.3.0-SNAPSHOT",
+  version in ThisBuild := "2.3.0",
   organization in ThisBuild := "me.amanj"
 )
 
