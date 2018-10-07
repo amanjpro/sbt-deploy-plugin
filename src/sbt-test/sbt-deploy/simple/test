@@ -1,3 +1,4 @@
+> test
 > publishLocal
 > package
 $ exists distribution/target/simple-distribution-0.0.1-SNAPSHOT.tar.gz
