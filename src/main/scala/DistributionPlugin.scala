@@ -31,7 +31,6 @@ object DistributionPlugin extends AutoPlugin {
     confSrcDir := (resourceDirectory in Compile).value / "conf",
     targetDir := (target in Compile).value,
     enableShellCheck := true,
-    exportJars := true,
     // When publishing (either to local repo, or public), make sure to publish the
     // tarball is published too
     packagedArtifacts in publish := {
