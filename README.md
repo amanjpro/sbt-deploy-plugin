@@ -17,7 +17,7 @@ To install this plugin in a project, simply add the following line to
 
 `addSbtPlugin("me.amanj" %% "sbt-deploy" % "${VERSION_OF_THE_PLUGIN_HERE}")`
 
-Please not that this plugin works with both sbt `0.13.x` and `1.0.x`.
+Please note that this plugin works with both sbt `0.13.x` and `1.0.x`.
 
 
 This Plugin is composed of the following subplugins:
@@ -45,7 +45,7 @@ This Plugin is composed of the following subplugins:
 - `distributedProjectName` expects a `java.lang.String`, and defaults to
   the name of the project that enables this plugin. This is used to customize
   the name of directory that the project tarball extracts to.
-- `assemblyClassifier` extects a `java.lang.String`, and defaults to
+- `assemblyClassifier` expects a `java.lang.String`, and defaults to
   `jar-with-dependencies`. This is used to customize the name of the fat jars.
 
 ### DistributionPlugin introduces the following settings:
