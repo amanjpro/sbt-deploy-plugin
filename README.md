@@ -15,10 +15,9 @@ The command to run tests is `sbt scripted`
 To install this plugin in a project, simply add the following line to
 `${PROJECT_ROOT_DIR}/project/plugins.sbt`:
 
-`addSbtPlugin("me.amanj" %% "sbt-deploy" % "${VERSION_OF_THE_PLUGIN_HERE}")`
+`addSbtPlugin("me.amanj" %% "sbt-deploy" % "2.3.1")`
 
 Please note that this plugin works with both sbt `0.13.x` and `1.0.x`.
-
 
 This Plugin is composed of the following subplugins:
 
@@ -31,6 +30,11 @@ This Plugin is composed of the following subplugins:
 - DistributionPlugin: Marks the current project as a `distribution` project.
   Among others, publishes the tarball, and runs shellcheck on the shell scripts
   alongside the test command.
+
+If you want to enable shellcheck plugin to test your shell scripts, you need to
+install `shellcheck` first:
+
+https://www.shellcheck.net/
 
 ## Customizing the plugins
 
@@ -112,6 +116,25 @@ lazy val distribution = project(...).settings(...)
 
 # Producing Compact Jars
 
-To produce compact Jar's you can use the shading rules of `sbt-assembly`
+To produce compact Jars you can use the shading rules of `sbt-assembly`
 plugin. This should be done with caution, as dependencies that are only needed
 through reflection might be dropped from the final fat jar.
+
+# Passing extra arguments to shellcheck
+
+To pass extra arguments to `shellcheck`, simply add this to the settings of the
+distribution submodule:
+
+`shellCheckArgs in ThisBuild ++= Seq("--external-sources", ...)`
+
+# Shading rules
+
+You can use `sbt-assembly` rules to shade/rename particular dependencies, for example
+adding the following the settings of the submodules which activate `AssemblerPlugin`,
+will rename the names space of `com.google` to `com.my.company`
+
+```
+  assemblyShadeRules in assembly := Seq(
+    ShadeRule.rename("com.google.protobuf.*" -> "com.my.company.google.protobuf.@1").inAll
+  )
+```
