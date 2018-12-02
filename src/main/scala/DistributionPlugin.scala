@@ -17,6 +17,7 @@ object DistributionPlugin extends AutoPlugin {
     lazy val targetDir            = settingKey[File]("Path to the directory where the tarball should end")
     lazy val projectName          = settingKey[String]("Name (or group id) of the distributed project")
     lazy val enableShellCheck     = settingKey[Boolean]("A flag to enable and disable shellcheck")
+    lazy val dummyShellcheck      = settingKey[Unit]("Dummy task to satisfy sbt")
   }
 
 
@@ -31,6 +32,7 @@ object DistributionPlugin extends AutoPlugin {
     confSrcDir := (resourceDirectory in Compile).value / "conf",
     targetDir := (target in Compile).value,
     enableShellCheck := true,
+    dummyShellcheck := {},
     // When publishing (either to local repo, or public), make sure to publish the
     // tarball is published too
     packagedArtifacts in publish := {
@@ -89,8 +91,7 @@ object DistributionPlugin extends AutoPlugin {
 
           ShellCheckPlugin.autoImport.shellCheck.toTask(args)
         } else {
-          val dummy = Def.taskKey[Unit]("Dummy task to satisfiy sbt")
-          dummy
+          dummyShellcheck.toTask
         }
       }.value
       (test in Test).value
