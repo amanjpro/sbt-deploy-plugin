@@ -19,7 +19,7 @@ object ShellCheckPlugin extends AutoPlugin {
     shellCheck := {
       val extraArgs = shellCheckArgs.value.toList
       val args = DefaultParsers.spaceDelimited("<arg>").parsed.toList
-      if(("shellcheck" :: (extraArgs ++ args)).! != 0)
+      if(!args.isEmpty && ("shellcheck" :: (extraArgs ++ args)).! != 0)
         throw new IllegalStateException("shellcheck failed")
     }
   )
