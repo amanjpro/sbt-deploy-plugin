@@ -15,7 +15,7 @@ The command to run tests is `sbt scripted`
 To install this plugin in a project, simply add the following line to
 `${PROJECT_ROOT_DIR}/project/plugins.sbt`:
 
-`addSbtPlugin("me.amanj" %% "sbt-deploy" % "2.3.1")`
+`addSbtPlugin("me.amanj" %% "sbt-deploy" % "2.3.3")`
 
 Please note that this plugin works with both sbt `0.13.x` and `1.0.x`.
 
