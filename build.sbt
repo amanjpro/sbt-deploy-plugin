@@ -12,7 +12,7 @@ lazy val root = Project(id="sbt-deploy", base=file(".")).settings(
     crossSbtVersions := Vector("0.13.16", "1.0.0"),
     libraryDependencies += {
       val currentSbtVersion = (sbtBinaryVersion in pluginCrossBuild).value
-      Defaults.sbtPluginExtra("com.eed3si9n" % "sbt-assembly" % "0.14.5", currentSbtVersion, scalaBinaryVersion.value)
+      Defaults.sbtPluginExtra("com.eed3si9n" % "sbt-assembly" % "0.14.10", currentSbtVersion, scalaBinaryVersion.value)
     },
     licenses += ("MIT", url("https://opensource.org/licenses/MIT")),
     publishMavenStyle := false,
