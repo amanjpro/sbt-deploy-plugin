@@ -38,12 +38,12 @@ object DistributionPlugin extends AutoPlugin {
     packagedArtifacts in publish := {
       val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publish).value
       val tarball = targetDir.value / s"${name.value}-${version.value}.tar.gz"
-      artifacts + (Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
+      Map(Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
     },
     packagedArtifacts in publishLocal := {
       val artifacts: Map[sbt.Artifact, java.io.File] = (packagedArtifacts in publishLocal).value
       val tarball = targetDir.value / s"${name.value}-${version.value}.tar.gz"
-      artifacts + (Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
+      Map(Artifact(name.value, "dist", "tar.gz", "dist") -> tarball)
     },
     // generate archive after packaging
     (packageBin in Compile) := {
